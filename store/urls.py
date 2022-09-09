@@ -6,4 +6,5 @@ from . import views
 
 urlpatterns = [
     path('', views.store, name='store_page'),
+    path('<slug:slug_id>/', views.store, name='categories'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
