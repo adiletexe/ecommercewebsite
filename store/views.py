@@ -16,3 +16,14 @@ def store(request, slug_id=None):
         'products': products
     }
     return render(request, 'store/store.html', dictionary)
+
+def product_details(request, slug_id, product_slug):
+    try:
+        product_in_detail = Product.objects.get(category__slug=slug_id, slug=product_slug)
+    except:
+        raise Exception
+
+    dictionary = {
+        'product': product_in_detail,
+    }
+    return render(request, 'store/product_detail.html', dictionary)
