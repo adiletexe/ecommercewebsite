@@ -10,7 +10,7 @@ def store(request, slug_id=None):
         category = get_object_or_404(Categories, slug=slug_id)
         products = Product.objects.filter(is_available=True, category=category)
     else:
-        products = Product.objects.all().filter(is_available=True, category=category)
+        products = Product.objects.all().filter(is_available=True)
 
     dictionary = {
         'products': products
