@@ -3,8 +3,22 @@ from django.http import HttpResponse
 from .models import Cart, CartItem
 from store.models import Product
 # Create your views here.
-def cart(request):
-    return render(request, 'cart/cart.html')
+def cart(request, total=0, quantity=0, cart_items=None):
+    try:
+        cart = Cart.objects.get(cart_id=_cart_id(request))
+        cart_items = CartItem.objects.get(cart = cart, is_active=True)
+        for cart_item in cart_items:
+            total += (cart_item.price * cart_item.quantity)
+            quantity += cart_item.quantity
+    except ObjectNotExist:
+        pass
+
+    dictionary = {
+        'total': total,
+        'quantity': quantity,
+        'cart_items': cart_items,
+    }
+    return render(request, 'cart/cart.html', dictionary)
 
 def _cart_id(request):
     cart = request.session.session_key
