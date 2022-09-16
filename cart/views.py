@@ -8,9 +8,9 @@ def cart(request, total=0, quantity=0, cart_items=None):
         cart = Cart.objects.get(cart_id=_cart_id(request))
         cart_items = CartItem.objects.get(cart = cart, is_active=True)
         for cart_item in cart_items:
-            total += (cart_item.price * cart_item.quantity)
+            total += (cart_item.product.price * cart_item.product.quantity)
             quantity += cart_item.quantity
-    except ObjectNotExist:
+    except:
         pass
 
     dictionary = {
@@ -44,9 +44,9 @@ def add_to_cart(request, product_id):
         cart_item = CartItem.objects.create(
             product = product,
             quantity = 1,
-            cart = cart
+            cart = cart,
         )
-        cart_item.save
+        cart_item.save()
 
-    return HttpResponse(cart_item.product)
+    return render(request, 'cart/cart.html')
 
