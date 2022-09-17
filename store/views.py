@@ -23,7 +23,7 @@ def product_details(request, slug_id, product_slug):
     except:
         raise Exception
 
-    dictionary = {
+    context = {
         'product': product_in_detail,
     }
-    return render(request, 'store/product_detail.html', dictionary)
+    return render(request, 'store/product_detail.html', context)

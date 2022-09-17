@@ -6,19 +6,19 @@ from store.models import Product
 def cart(request, total=0, quantity=0, cart_items=None):
     try:
         cart = Cart.objects.get(cart_id=_cart_id(request))
-        cart_items = CartItem.objects.get(cart = cart, is_active=True)
+        cart_items = CartItem.objects.get(cart=cart, is_available=True)
         for cart_item in cart_items:
             total += (cart_item.product.price * cart_item.product.quantity)
             quantity += cart_item.quantity
     except:
         pass
 
-    dictionary = {
+    context = {
         'total': total,
         'quantity': quantity,
         'cart_items': cart_items,
     }
-    return render(request, 'cart/cart.html', dictionary)
+    return render(request, 'cart/cart.html', context)
 
 def _cart_id(request):
     cart = request.session.session_key
